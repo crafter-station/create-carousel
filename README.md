@@ -61,15 +61,39 @@ Reusable assets are stored under:
 
 Do not create carousel-local `assets/` folders. Pencil image fills should use absolute paths into the reusable asset library.
 
+## Font Setup
+
+Pencil `.pen` files can specify `fontFamily`, but they do not embed, fetch, or install font files. Final exports require Satoshi to be installed where Pencil renders.
+
+Verify before exporting:
+
+```bash
+./scripts/verify-fonts.sh
+```
+
+The skill uses a Pencil document variable:
+
+```json
+"variables": {
+  "font-sans": {
+    "type": "string",
+    "value": "Satoshi, 'Satoshi Variable', Inter, Arial, sans-serif"
+  }
+}
+```
+
+All text nodes should use `fontFamily:"$font-sans"` instead of hardcoded `fontFamily:"Satoshi"`.
+
 ## Publishing Flow
 
 1. Create or revise the Pencil carousel.
-2. Export ordered x3 PNGs to `exports/x3/`.
-3. Generate `exports/carousel.pdf` from the same x3 PNGs.
-4. Complete `source/pre-publish-review.md` by inspecting the rendered media.
-5. Fix and re-export until the review says `Approval: Approved` and `Blocking issues: None`.
-6. Upload media to tmpfiles.
-7. Queue LinkedIn and Instagram through Buffer.
+2. Verify fonts with `./scripts/verify-fonts.sh`.
+3. Export ordered x3 PNGs to `exports/x3/`.
+4. Generate `exports/carousel.pdf` from the same x3 PNGs.
+5. Complete `source/pre-publish-review.md` by inspecting the rendered media.
+6. Fix and re-export until the review says `Approval: Approved` and `Blocking issues: None`.
+7. Upload media to tmpfiles.
+8. Queue LinkedIn and Instagram through Buffer.
 
 The Buffer queue script refuses `--live` unless the review report is approved.
 

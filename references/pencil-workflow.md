@@ -9,16 +9,31 @@ Canonical slide IDs in order: `aRhT9`, `GY76Z`, `R09Zvx`, `Iz3z8`, `BLrbz`, `N97
 ## Build Steps
 
 1. Create a new Pencil file at `/Users/cuevaio/projects/content/carousels/YYYY-MM-DD-slug/source/carousel.pen` for every carousel.
-2. Build or duplicate slides using the measured design rules.
-3. Run the measurement pass below before detailed edits.
-4. Import all assets into the content library before using them.
-5. Reference assets from `/Users/cuevaio/projects/content/assets` using absolute paths in Pencil image fills.
-6. Do not create a carousel-local `assets/` folder or duplicate shared assets into the carousel folder.
-7. Replace only topic-specific copy, labels, diagrams, screenshots, examples, logos, and brand assets.
-8. Keep the footer on every slide with `cueva.io` and the page index.
-9. Use `/Users/cuevaio/projects/content/assets/profile/anthony-profile.jpg` for the final slide profile image.
-10. Verify key slides with screenshots before export.
-11. After final export, complete `source/pre-publish-review.md` before any upload or Buffer queueing.
+2. Run `/Users/cuevaio/projects/create-carousel/scripts/verify-fonts.sh` before detailed work or final export.
+3. Define the `font-sans` document variable before adding text nodes.
+4. Build or duplicate slides using the measured design rules.
+5. Run the measurement pass below before detailed edits.
+6. Import all assets into the content library before using them.
+7. Reference assets from `/Users/cuevaio/projects/content/assets` using absolute paths in Pencil image fills.
+8. Do not create a carousel-local `assets/` folder or duplicate shared assets into the carousel folder.
+9. Replace only topic-specific copy, labels, diagrams, screenshots, examples, logos, and brand assets.
+10. Keep the footer on every slide with `cueva.io` and the page index.
+11. Use `/Users/cuevaio/projects/content/assets/profile/anthony-profile.jpg` for the final slide profile image.
+12. Verify key slides with screenshots before export.
+13. After final export, complete `source/pre-publish-review.md` before any upload or Buffer queueing.
+
+Required font variable:
+
+```json
+"variables": {
+  "font-sans": {
+    "type": "string",
+    "value": "Satoshi, 'Satoshi Variable', Inter, Arial, sans-serif"
+  }
+}
+```
+
+Use `fontFamily:"$font-sans"` on every text node. Pencil does not install or load fonts from `.pen`; Satoshi must be installed where Pencil renders.
 
 ## Asset Workflow
 
@@ -85,7 +100,7 @@ Before building or revising a deck, confirm these details against [carousel-desi
 - Every slide is `1080x1350`.
 - Source slide order matches `aRhT9`, `GY76Z`, `R09Zvx`, `Iz3z8`, `BLrbz`, `N97NYD`, `M3NS5Q`, `i2B0G`.
 - Copied or new slides preserve the `1180px` horizontal step and `100px` visible gaps.
-- Visible text uses `Satoshi`.
+- Visible text uses `fontFamily:"$font-sans"`, resolving to Satoshi for final exports.
 - Common slide padding is `[70,80]`.
 - Common content width is `920`.
 - Light slides use `#FAFAFA`; dark slides use `#171717`.
@@ -122,6 +137,7 @@ Do not create `exports/x1/` in the standard workflow.
 Check before export:
 
 - Text is readable at mobile feed size.
+- Satoshi is installed and rendered; fallback fonts are not used in final exports.
 - White slides and black slides maintain strong contrast.
 - Footer index matches slide order.
 - No text overflows or gets clipped.

@@ -19,20 +19,24 @@ Do not use this for X/Twitter. This skill is LinkedIn and Instagram only.
 
 1. Gather the topic, audience, core point, source notes, desired CTA, and exclusions.
 2. Draft slide copy using [copywriting-style.md](references/copywriting-style.md).
-3. Build or revise the carousel in Pencil using [pencil-workflow.md](references/pencil-workflow.md).
-4. Preserve the visual system from [carousel-design-system.md](references/carousel-design-system.md).
-5. Store generated source files and exports using [content-storage.md](references/content-storage.md).
-6. Export ordered x3 slide images for Instagram and one PDF document for LinkedIn only after Pencil visual verification.
-7. Complete the rendered export review using [pre-publish-review.md](references/pre-publish-review.md) and [pre-publish-review.md](templates/pre-publish-review.md).
-8. Fix, re-export, and re-review until the review is approved with no blocking issues.
-9. Upload exported assets to tmpfiles.org only after review approval.
-10. Queue one LinkedIn PDF/document post and one Instagram image carousel through Buffer using [buffer-api.md](references/buffer-api.md).
+3. Verify local font availability before building or exporting with `scripts/verify-fonts.sh`.
+4. Build or revise the carousel in Pencil using [pencil-workflow.md](references/pencil-workflow.md).
+5. Preserve the visual system from [carousel-design-system.md](references/carousel-design-system.md).
+6. Store generated source files and exports using [content-storage.md](references/content-storage.md).
+7. Export ordered x3 slide images for Instagram and one PDF document for LinkedIn only after Pencil visual verification.
+8. Complete the rendered export review using [pre-publish-review.md](references/pre-publish-review.md) and [pre-publish-review.md](templates/pre-publish-review.md).
+9. Fix, re-export, and re-review until the review is approved with no blocking issues.
+10. Upload exported assets to tmpfiles.org only after review approval.
+11. Queue one LinkedIn PDF/document post and one Instagram image carousel through Buffer using [buffer-api.md](references/buffer-api.md).
 
 ## Hard Rules
 
 - Reuse the existing finished Pencil carousel style exactly unless the user asks for a redesign.
 - Before building or revising a deck, read `references/carousel-design-system.md` and preserve the extracted Pencil measurements exactly.
 - Adapt the topic, copy, slide roles, labels, diagrams, screenshots, examples, and assets while preserving the measured style.
+- Pencil does not embed or load font files from `.pen` documents. Final exports require Satoshi to be installed where Pencil renders the file.
+- Define the document string variable `font-sans` and use `fontFamily: "$font-sans"` on text nodes. Do not hardcode raw `fontFamily: "Satoshi"` in new recipes.
+- Use the font stack `Satoshi, 'Satoshi Variable', Inter, Arial, sans-serif` so drafts remain legible if Satoshi is temporarily unavailable.
 - Instagram uses exported slide images.
 - LinkedIn uses an exported PDF/document asset, not individual slide images.
 - Do not upload assets or queue Buffer posts until `source/pre-publish-review.md` is approved with no blocking issues.
@@ -57,6 +61,7 @@ Do not use this for X/Twitter. This skill is LinkedIn and Instagram only.
 ## Setup Scripts
 
 - `scripts/prepare-content-dir.sh`: create content folders and copy the profile image.
+- `scripts/verify-fonts.sh`: verify Satoshi is installed before final Pencil exports.
 - `scripts/upload-tmpfiles.sh`: upload exports and write a public URL manifest.
 - `scripts/queue-buffer-post.ts`: queue LinkedIn and Instagram posts from manifests after an approved review report.
 

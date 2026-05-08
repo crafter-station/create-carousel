@@ -31,6 +31,7 @@ The review is rejected if any item below fails:
 - No text, icons, logos, screenshots, cards, terminal content, or footer elements overflow their containers.
 - Nothing important is clipped by slide bounds, card masks, image masks, or decorative overlays.
 - Text is readable at mobile feed size; dense copy is shortened instead of shrunk below the style guide.
+- Rendered typography uses Satoshi through the `$font-sans` variable; fallback fonts are not acceptable for final exports.
 - Contrast is strong on both light and dark slides, including captions, labels, footer text, code text, and badges.
 - Dark slides use the correct dark visual language; light slides use the correct light visual language.
 - The deck keeps Satoshi typography, measured padding, footer placement, visual card radii, strokes, and spacing.

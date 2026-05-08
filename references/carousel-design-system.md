@@ -5,7 +5,7 @@ Use the existing Pencil deck only as a measured style reference. The topic can b
 ## Source Reference
 
 - Slide size: `1080x1350`
-- Main font: `Satoshi`
+- Main font token: `$font-sans`, resolving first to `Satoshi`
 - Visual style: high-contrast SaaS minimalism, black/white rhythm, sharp hierarchy, sparse copy.
 
 The measurements below are the canonical reference. Do not rely on external folders or one-off source files when building future carousels.
@@ -78,17 +78,34 @@ For new decks, place slides in empty canvas space with the same `1180px` step an
 
 ## Typography
 
-Do not switch this design to Inter. The finished style uses `Satoshi`.
+Pencil text nodes accept a `fontFamily` string, but `.pen` files do not embed or load font files. Satoshi must be installed in the environment where Pencil renders screenshots, PNGs, and PDFs.
+
+Define this document variable before adding text nodes:
+
+```json
+"variables": {
+  "font-sans": {
+    "type": "string",
+    "value": "Satoshi, 'Satoshi Variable', Inter, Arial, sans-serif"
+  }
+}
+```
+
+Use `fontFamily:"$font-sans"` on every text node. Do not hardcode raw `fontFamily:"Satoshi"` in new decks.
+
+Do not intentionally switch this design to Inter. Inter is only a fallback for draft readability when Satoshi is not available; final exports should be reviewed with Satoshi loaded.
 
 | Element | Font | Size | Weight | Line height | Notes |
 | --- | --- | --- | --- | --- | --- |
-| Badge | `Satoshi` | `18` | `800` | default | `letterSpacing: 2`, slide 8 uses `1.5` |
-| Title | `Satoshi` | `58-70` | `800` | `1.02-1.06` | centered, fixed width `920` |
-| Body copy | `Satoshi` | `28-29` | `500` | `1.32-1.35` | centered, fixed width |
-| Visual label | `Satoshi` | `24-38` | `700-800` | default to `1.3` | use only a few labels |
-| Footer | `Satoshi` | `20` | `500` | default | left `cueva.io`, right `NN / 08` |
-| CTA/button | `Satoshi` | `28` | `700-800` | default | short text only |
-| Demo/step text | `Satoshi` | `29` | `700` | default | white on black when in a dark panel |
+| Badge | `$font-sans` | `18` | `900` | default | `letterSpacing: 2`, slide 8 uses `1.5` |
+| Title | `$font-sans` | `58-70` | `900` | `1.02-1.06` | centered, fixed width `920` |
+| Body copy | `$font-sans` | `28-29` | `500` | `1.32-1.35` | centered, fixed width |
+| Visual label | `$font-sans` | `24-38` | `700-900` | default to `1.3` | use only a few labels |
+| Footer | `$font-sans` | `20` | `500` | default | left `cueva.io`, right `NN / 08` |
+| CTA/button | `$font-sans` | `28` | `700-900` | default | short text only |
+| Demo/step text | `$font-sans` | `29` | `700` | default | white on black when in a dark panel |
+
+Satoshi static files commonly provide `500` Medium, `700` Bold, and `900` Black. Prefer those weights over `800`; `800` may trigger synthetic weight matching or fallback rendering in Pencil exports.
 
 Title sizing rules:
 
@@ -126,20 +143,20 @@ Light slides use a black badge with white text. Dark slides use a white badge wi
 
 ```javascript
 badge=I(slide,{type:"frame",cornerRadius:100,fill:"#000000",padding:[10,20],height:44,alignItems:"center",justifyContent:"center",stroke:{fill:"#000000",thickness:1}})
-I(badge,{type:"text",content:"{BADGE_LABEL}",fontFamily:"Satoshi",fontSize:18,fontWeight:"800",letterSpacing:2,fill:"#FFFFFF"})
+I(badge,{type:"text",content:"{BADGE_LABEL}",fontFamily:"$font-sans",fontSize:18,fontWeight:"900",letterSpacing:2,fill:"#FFFFFF"})
 ```
 
 Dark slide badge:
 
 ```javascript
 badge=I(slide,{type:"frame",cornerRadius:100,fill:"#FFFFFF",padding:[10,20],height:44,alignItems:"center",justifyContent:"center",stroke:{fill:"#FFFFFF",thickness:1}})
-I(badge,{type:"text",content:"{BADGE_LABEL}",fontFamily:"Satoshi",fontSize:18,fontWeight:"800",letterSpacing:2,fill:"#171717"})
+I(badge,{type:"text",content:"{BADGE_LABEL}",fontFamily:"$font-sans",fontSize:18,fontWeight:"900",letterSpacing:2,fill:"#171717"})
 ```
 
 ### Title
 
 ```javascript
-I(slide,{type:"text",content:"{HOOK_HEADLINE}",fontFamily:"Satoshi",fontSize:68,fontWeight:"800",lineHeight:1.02,fill:"#171717",textAlign:"center",textGrowth:"fixed-width",width:920})
+I(slide,{type:"text",content:"{HOOK_HEADLINE}",fontFamily:"$font-sans",fontSize:68,fontWeight:"900",lineHeight:1.02,fill:"#171717",textAlign:"center",textGrowth:"fixed-width",width:920})
 ```
 
 ### Body Card
@@ -148,14 +165,14 @@ Light slide:
 
 ```javascript
 card=I(slide,{type:"frame",layout:"vertical",width:920,cornerRadius:24,fill:"#FFFFFF",padding:[32,40],gap:20,stroke:{fill:"#D4D4D4",thickness:1},alignItems:"center"})
-I(card,{type:"text",content:"{PROBLEM_STATEMENT}",fontFamily:"Satoshi",fontSize:28,fontWeight:"500",lineHeight:1.35,fill:"#262626",textAlign:"center",textGrowth:"fixed-width",width:"fill_container"})
+I(card,{type:"text",content:"{PROBLEM_STATEMENT}",fontFamily:"$font-sans",fontSize:28,fontWeight:"500",lineHeight:1.35,fill:"#262626",textAlign:"center",textGrowth:"fixed-width",width:"fill_container"})
 ```
 
 Dark slide:
 
 ```javascript
 card=I(slide,{type:"frame",layout:"vertical",width:920,cornerRadius:24,fill:"#262626",padding:[32,40],gap:20,stroke:{fill:"#404040",thickness:1},alignItems:"center"})
-I(card,{type:"text",content:"{CONTEXT_STATEMENT}",fontFamily:"Satoshi",fontSize:28,fontWeight:"500",lineHeight:1.35,fill:"#FFFFFF",textAlign:"center",textGrowth:"fixed-width",width:"fill_container"})
+I(card,{type:"text",content:"{CONTEXT_STATEMENT}",fontFamily:"$font-sans",fontSize:28,fontWeight:"500",lineHeight:1.35,fill:"#FFFFFF",textAlign:"center",textGrowth:"fixed-width",width:"fill_container"})
 ```
 
 ### Main Visual Card
@@ -178,8 +195,8 @@ Footer is not pagination dots. Do not add dots.
 
 ```javascript
 footer=I(slide,{type:"frame",layoutPosition:"absolute",x:80,y:1258,width:920,alignItems:"center",justifyContent:"space_between"})
-I(footer,{type:"text",content:"cueva.io",fontFamily:"Satoshi",fontSize:20,fontWeight:"500",fill:"#404040"})
-I(footer,{type:"text",content:"01 / 08",fontFamily:"Satoshi",fontSize:20,fontWeight:"500",fill:"#404040"})
+I(footer,{type:"text",content:"cueva.io",fontFamily:"$font-sans",fontSize:20,fontWeight:"500",fill:"#404040"})
+I(footer,{type:"text",content:"01 / 08",fontFamily:"$font-sans",fontSize:20,fontWeight:"500",fill:"#404040"})
 ```
 
 Use `fill:"#FFFFFF"` for both footer text nodes on dark slides.
@@ -194,7 +211,7 @@ header=I(panel,{type:"frame",gap:10,alignItems:"center",justifyContent:"start",w
 I(header,{type:"ellipse",width:14,height:14,fill:"#FF5F57"})
 I(header,{type:"ellipse",width:14,height:14,fill:"#FFBD2E"})
 I(header,{type:"ellipse",width:14,height:14,fill:"#22C55E"})
-I(panel,{type:"text",content:"{COMMAND_OR_STEP}",fontFamily:"Satoshi",fontSize:29,fontWeight:"700",fill:"#FFFFFF",textGrowth:"fixed-width",width:"fill_container"})
+I(panel,{type:"text",content:"{COMMAND_OR_STEP}",fontFamily:"$font-sans",fontSize:29,fontWeight:"700",fill:"#FFFFFF",textGrowth:"fixed-width",width:"fill_container"})
 ```
 
 Terminal dots rule:
@@ -296,7 +313,7 @@ Demo card:
 - Card `width:920`, `height:500`, radius `28`, black fill, padding `[44,42]`, gap `22`, stroke `#262626` at `2px`.
 - Header dots are `14x14`: `#FF5F57`, `#FFBD2E`, `#22C55E`.
 - Header dots must be top-left aligned inside the terminal card, never centered.
-- Step text uses `Satoshi`, `29px`, weight `700`, fill `#FFFFFF`, fixed-width.
+- Step text uses `$font-sans`, `29px`, weight `700`, fill `#FFFFFF`, fixed-width.
 - Terminal content must be plain code/step text. Do not add inner cards, boxes, callouts, or pills inside the terminal panel.
 - Use this for commands, steps, checklist items, or short before/after snippets.
 
@@ -312,7 +329,7 @@ Compare card:
 - Two columns, both `width: fill_container`, `height: fill_container`, radius `24`, padding `28`, gap `20`.
 - Left column can be light for `{OPTION_A}`.
 - Right column can be black for `{OPTION_B}` or the recommended option.
-- Column title `35-38px`, weight `800`.
+- Column title `35-38px`, weight `900`.
 - Column bullets `25px`, weight `600-700`, centered.
 
 ### Slide 07 Takeaway Or CTA
@@ -325,7 +342,7 @@ Final concept card:
 - Card `width:920`, `height:500`, radius `28`, padding `[42,44]`, gap `26`, stroke `#D4D4D4`.
 - Icon circle `120x120`, radius `100`, fill `#000000`.
 - Icon `64x64`, white.
-- Main line `38px`, weight `800`, fill `#171717`.
+- Main line `38px`, weight `900`, fill `#171717`.
 - Secondary line `28px`, weight `700`, fill `#262626`.
 - Optional CTA pill radius `100`, fill `#000000`, padding `[20,60]`.
 - CTA text `28px`, weight `700`, white.
@@ -350,16 +367,16 @@ Profile card:
 - Fill `#FFFFFF`, radius `28`, padding `[40,48]`, gap `24`, stroke `#D4D4D4`.
 - Profile image `180x180`, radius `90`, clip true, image fill mode `fill`.
 - Future decks should use `/Users/cuevaio/projects/content/assets/profile/anthony-profile.jpg`.
-- Name text `38px`, weight `800`, fill `#171717`.
+- Name text `38px`, weight `900`, fill `#171717`.
 - Subtext `25px`, weight `500`, lineHeight `1.3`, fill `#525252`.
 - Button fill `#FFFFFF`, radius `12`, padding `[18,52]`.
-- Button text `28px`, weight `800`, fill `#171717`.
+- Button text `28px`, weight `900`, fill `#171717`.
 
 ## Design Rules
 
 - Preserve the eight-slide role sequence unless the topic needs fewer slides or the user asks for a different structure.
 - Preserve alternating light/dark backgrounds.
-- Preserve `Satoshi`.
+- Preserve `$font-sans` and verify final exports render with Satoshi, not the fallback font.
 - Preserve footer placement and page-index format.
 - Use the footer page index instead of pagination dots.
 - Prefer duplicated source slides over rebuilding from scratch.
